@@ -33,14 +33,6 @@ The app records start time, end time, duration, all form fields, and running tot
 
 ---
 
-## Screenshots / UI
-
-Minimal black-and-white layout inspired by old Mac utility apps — grooved borders, utilitarian typography, colour only on the start/end buttons. Uses the **Nord** font and the lab logo (`SUN_SQUARE.png`) when those files are present in the app folder.
-
-Window size: **476 × 650 px**, vertical layout.
-
----
-
 ## Requirements
 
 - **Windows 10 / 11** (tested on the lab workstation)
@@ -60,21 +52,7 @@ Window size: **476 × 650 px**, vertical layout.
 
 ## How to run
 
-### Recommended — no terminal window
-
 Double-click **`launch.vbs`**
-
-### Alternative
-
-Double-click **`run.bat`** — also silent (`pythonw`, no console)
-
-### Command line
-
-```bat
-pythonw sun_logger.py
-```
-
-Use `python sun_logger.py` only when debugging (shows a console).
 
 ---
 
