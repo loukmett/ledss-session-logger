@@ -1,0 +1,21 @@
+# Runtime data — created on the lab workstation, do not commit
+sun_log.csv
+sun_log.bak
+sun_log.csv.bak
+sun_stats.json
+sun_stats.bak
+sun_state.json
+sun_sessions.csv
+sun_sessions.bak.csv
+
+# Python / local dev
+__pycache__/
+*.py[cod]
+*.log
+startup_test.txt
+error.log
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
