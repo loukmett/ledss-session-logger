@@ -1,6 +1,6 @@
 # ZCBS Solar Simulator (LEDSS) — Session Logger v1.0
 
-![alt text](https://github.com/loukmett/ledss-session-logger/blob/main/SUN_SQUARE.png?raw=true)
+<img src="https://github.com/loukmett/ledss-session-logger/blob/main/SUN_SQUARE.png?raw=true" alt="ZCBS Solar Simulator Logo" width="50%">
 
 Standalone Windows app for session authorisation, machine-hours logging, and **openBIS upload when a session ends**.
 
