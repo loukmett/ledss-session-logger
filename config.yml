@@ -1,0 +1,26 @@
+# ZCBS LEDSS Session Logger v1.0 — openBIS configuration
+# Credentials are NOT stored here — user logs in when starting a session (if upload enabled).
+# Projects and experiments are chosen from openBIS after login (created only on the website).
+
+openbis:
+  enabled: true
+  url: "https://research-data-hub.ethz.ch/openbis/webapp/eln-lims/"
+  verify_ssl: true
+
+upload:
+  # Optional default path (user can change in app — saved in app_prefs.json)
+  data_folder: "C:/LEDSS_Data/session_output"
+
+  # Default space shown in the app (user picks project/experiment after sign-in)
+  space: "SCHLUETER_LMETTAS"
+
+  dataset_type: "RAW_DATA"
+  file_extensions:
+    - ".txt"
+    - ".tdms"
+    - ".csv"
+    - ".lvm"
+
+  move_after_upload: false
+  uploaded_subfolder: "uploaded"
+  log_file: "openbis_upload.log"
