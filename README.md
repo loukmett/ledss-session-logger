@@ -1,5 +1,7 @@
 # ZCBS Solar Simulator (LEDSS) — Session Logger v1.0
 
+![alt text](https://github.com/loukmett/ledss-session-logger/blob/main/SUN_SQUARE.png?raw=true)
+
 Standalone Windows app for session authorisation, machine-hours logging, and **openBIS upload when a session ends**.
 
 ![Python 3.8+](https://img.shields.io/badge/python-3.8%2B-blue)
