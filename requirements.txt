@@ -1,0 +1,5 @@
+# LEDSS Session Logger v1.0 — optional openBIS upload
+# Install: pip install -r requirements.txt
+
+pybis>=1.0.0
+pyyaml>=6.0

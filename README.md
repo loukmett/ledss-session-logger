@@ -1,147 +1,99 @@
-# ZCBS Solar Simulator (LEDSS) — Session Logger v0.9
+# ZCBS Solar Simulator (LEDSS) — Session Logger v1.0
 
-Standalone workstation application for the **Zero Carbon Building Systems Lab** solar simulator. It authorises sessions, records who used the machine, logs experiment parameters, tracks cumulative machine hours, and exports a CSV audit trail.
+Standalone Windows app for session authorisation, machine-hours logging, and **openBIS upload when a session ends**.
 
-Built for a dedicated PC next to the LabVIEW-controlled LEDSS rig — simple, offline, no dependencies beyond Python.
-
-![Python 3.7+](https://img.shields.io/badge/python-3.7%2B-blue)
-![Dependencies](https://img.shields.io/badge/deps-stdlib%20only-green)
+![Python 3.8+](https://img.shields.io/badge/python-3.8%2B-blue)
 ![Platform](https://img.shields.io/badge/platform-Windows-lightgrey)
+
+Repository: [github.com/loukmett/ledss-session-logger](https://github.com/loukmett/ledss-session-logger)
 
 ---
 
-## What it does
+## Features
 
-Before a researcher uses the sun simulator, they fill in a short form:
-
-| Field | Notes |
-|-------|--------|
-| **Researcher** | Type a name or pick from previous sessions |
-| **Lab member** | Loukas Mettas, Dominique Maritz, or Marco Serra |
-| **Experiment** | New or existing experiment name |
-| **Operation** | **Restrictive** (limited movement/power) or **Unrestrictive** |
-
-For **Restrictive** operation, these parameters are required:
-
-- Max / min azimuth (°)
-- Max / min altitude (°)
-- WW, CW, IR power (%)
-
-The researcher presses **START SESSION** when the experiment begins and **END SESSION** when finished. At the end they can add remarks and flag maintenance if something went wrong.
-
-The app records start time, end time, duration, all form fields, and running totals of machine hours.
+- Session log to `sun_log.csv` (researcher, parameters, duration, remarks)
+- Optional **openBIS upload on END SESSION** (no background watcher)
+- Sign in to openBIS per session — **password never saved**
+- **Project and experiment chosen from the server** (created only on the openBIS website)
+- Duplicate-file check before upload
+- Confirmation that data files are in the folder before ending a session
 
 ---
 
 ## Requirements
 
-- **Windows 10 / 11** (tested on the lab workstation)
-- **Python 3.7+** — [python.org](https://www.python.org/downloads/)
-  - During install, tick **“Add Python to PATH”**
-- **tkinter** — included with the standard Windows Python installer
-- No `pip` packages required
+- Windows 10 / 11
+- Python 3.8+ with tkinter
+- For openBIS upload:
+  ```bat
+  pip install -r requirements.txt
+  ```
+- Place **`SUN_SQUARE.png`** next to `sun_logger.py` (included in repo)
 
-### Assets (included in this repo)
+---
+
+## First-time setup
+
+1. Clone or copy this folder to the lab PC.
+2. Install dependencies:
+   ```bat
+   pip install -r requirements.txt
+   ```
+3. Edit **`config.yml`**:
+   - `openbis.url` — ETH research data hub URL
+   - `openbis.enabled` — `true` / `false`
+   - `upload.space` — default space code (optional)
+   - `upload.data_folder` — optional first-time default path
+   - `upload.file_extensions` — e.g. `.tdms`, `.csv`, `.lvm`, `.txt`
+   - `upload.dataset_type` — e.g. `RAW_DATA`
+4. Double-click **`launch.vbs`** (or **`run.bat`**).
+
+User-specific paths are saved in **`app_prefs.json`** (local, not committed).
+
+---
+
+## Workflow
+
+1. Fill **SETUP** and **PARAMETERS**.
+2. In **OPENBIS / DATA**: set **data folder** and **Space**.
+3. Click **Sign in to openBIS** → choose **Project** and **OBIS experiment** from synced lists.
+4. **START SESSION** — simulator runs; timer counts.
+5. Save experiment output files into the data folder.
+6. **END SESSION**:
+   - Confirm files are in the folder
+   - Files upload to the selected openBIS experiment
+   - Success or error dialog; session saved to CSV
+
+Projects and experiments must exist on openBIS before use. The logger does not create them.
+
+---
+
+## Runtime files (local only)
 
 | File | Purpose |
 |------|---------|
-| `Nord.ttf` | UI font |
-| `SUN_SQUARE.png` | Logo shown below the title |
+| `sun_log.csv` | Session history |
+| `sun_stats.json` | Total hours / session count |
+| `sun_state.json` | Crash recovery (active session) |
+| `app_prefs.json` | Remembered data folder |
+| `openbis_upload.log` | openBIS connection/upload log |
+
+These are listed in `.gitignore` and stay on the workstation.
 
 ---
 
-## How to run
+## Project files
 
-Double-click **`launch.vbs`**
-
----
-
-## Data files
-
-Created automatically next to `sun_logger.py` on first run. **Do not edit manually.**
-
-| File | Purpose |
-|------|---------|
-| `sun_log.csv` | Full session log |
-| `sun_log.bak` | Backup before every save |
-| `sun_stats.json` | Total machine hours + session count |
-| `sun_state.json` | Active session (removed on clean end) |
-
-### Safe writes
-
-The CSV is updated atomically: write to a temp file → backup existing file → rename. A crash mid-save cannot corrupt the log.
-
-Legacy data in `sun_sessions.csv` (older format) is migrated automatically on first launch.
-
-### Crash recovery
-
-If the app closes during an active session, state is kept in `sun_state.json`. On the next launch you are offered the option to resume.
-
-### Export
-
-Click **Export CSV** in the footer to save a timestamped copy anywhere (e.g. for reports or archiving).
-
----
-
-## CSV columns
-
-```
-ID, Date, Start Time, End Time, Duration (h),
-Researcher, Lab Member, Operation, Experiment,
-Max Azimuth (deg), Min Azimuth (deg),
-Max Altitude (deg), Min Altitude (deg),
-WW Power (%), CW Power (%), IR Power (%),
-Remarks, Maintenance Required
-```
-
-Restrictive-only columns are left empty for Unrestrictive sessions.
-
----
-
-## Project layout
-
-```
-sun-logger-v0.9/sun-logger/
-├── sun_logger.py    # Application (Python + tkinter)
-├── launch.vbs       # Silent launcher (recommended)
-├── run.bat          # Silent launcher (fallback)
-├── Nord.ttf         # Font
-├── SUN_SQUARE.png   # Logo
-├── README.md        # This file
-└── README.txt       # Short quick-reference for the lab PC
-```
-
----
-
-## Deployment on the lab PC
-
-1. Copy the whole `sun-logger` folder to the simulator workstation.
-2. Install Python 3 if not already present.
-3. Pin **`launch.vbs`** to the desktop or taskbar.
-4. Keep the folder writable so CSV/stats files can be updated.
-5. Back up `sun_log.csv` periodically (or use Export CSV).
-
----
-
-## Development
-
-Single-file app — all logic lives in `sun_logger.py`:
-
-- **UI** — tkinter, classic Mac-style grooved frames
-- **Persistence** — CSV log + JSON stats + JSON session state
-- **Font loading** — `Nord.ttf` via Windows GDI (no broadcast; avoids hang on some systems)
-
-To change lab members, edit `LAB_MEMBERS` near the top of `sun_logger.py`.
-
----
-
-## Licence
-
-Internal lab tool — **Zero Carbon Building Systems Lab**, ETH Zurich.  
-Font and logo assets belong to their respective owners; check before redistributing outside the lab.
+| File | Role |
+|------|------|
+| `sun_logger.py` | Main application |
+| `openbis_uploader.py` | openBIS login, listing, upload |
+| `config.yml` | Server URL and upload defaults |
+| `launch.vbs` / `run.bat` | Silent launch via `pythonw` |
+| `requirements.txt` | `pybis`, `pyyaml` |
 
 ---
 
 ## Contact
 
-Lab team: Loukas Mettas · Dominique Maritz · Marco Serra
+Loukas Mettas · Dominique Maritz · Marco Serra — ZCBS Lab, ETH Zurich
