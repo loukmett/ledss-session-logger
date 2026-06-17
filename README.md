@@ -12,10 +12,10 @@ Repository: [github.com/loukmett/ledss-session-logger](https://github.com/loukme
 ## Features
 
 - Session log to `sun_log.csv` (researcher, parameters, duration, remarks)
-- Optional **openBIS upload on END SESSION** (no background watcher)
-- Sign in to openBIS per session — **password never saved**
-- **Project and experiment chosen from the server** (created only on the openBIS website)
-- Duplicate-file check before upload
+- Optional **openBIS upload on END SESSION** 
+- Sign in to openBIS per session
+- Project and experiment chosen from the server
+- Duplicate-file check
 - Confirmation that data files are in the folder before ending a session
 
 ---
@@ -34,7 +34,7 @@ Repository: [github.com/loukmett/ledss-session-logger](https://github.com/loukme
 
 ## First-time setup
 
-1. Clone or copy this folder to the lab PC.
+1. Clone or copy this folder to the workstation.
 2. Install dependencies:
    ```bat
    pip install -r requirements.txt
@@ -96,4 +96,4 @@ These are listed in `.gitignore` and stay on the workstation.
 
 ## Contact
 
-Loukas Mettas · Dominique Maritz · Marco Serra — ZCBS Lab, ETH Zurich
+Loukas Mettas — ZCBS Lab, ETH Zurich
